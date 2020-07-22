@@ -18,6 +18,7 @@ class CompaniesController < ApplicationController
     if @company.save
       redirect_to companies_path, notice: "Saved"
     else
+      flash.now[:error] = company_errors
       render :new
     end
   end
@@ -37,7 +38,8 @@ class CompaniesController < ApplicationController
     if @company.destroy
       redirect_to companies_path, notice: 'Company deleted'
     else
-      redirect_to request.referrer, alert: company_errors
+      flash[:error] = company_errors
+      redirect_to request.referrer
     end
   end
 
@@ -60,7 +62,8 @@ class CompaniesController < ApplicationController
   end
 
   def not_found_response
-    redirect_to companies_path, alert: 'Company not found'
+    flash[:error] = 'Company not found'
+    redirect_to companies_path
   end
 
   def company_errors

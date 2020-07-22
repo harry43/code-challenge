@@ -28,6 +28,7 @@ class CompaniesControllerTest < ApplicationSystemTestCase
     visit edit_company_path(@company)
 
     within("form#edit_company_#{@company.id}") do
+      fill_in("company_email", with: "new_test_company@getmainstreet.com")
       fill_in("company_name", with: "Updated Test Company")
       fill_in("company_zip_code", with: "93009")
       click_button "Update Company"
@@ -40,7 +41,25 @@ class CompaniesControllerTest < ApplicationSystemTestCase
     assert_equal "93009", @company.zip_code
   end
 
-  test "Create" do
+  test "Create with valid email" do
+    visit new_company_path
+
+    within("form#new_company") do
+      fill_in("company_name", with: "New Test Company")
+      fill_in("company_zip_code", with: "28173")
+      fill_in("company_phone", with: "5553335555")
+      fill_in("company_email", with: "new_test_company@getmainstreet.com")
+      click_button "Create Company"
+    end
+
+    assert_text "Saved"
+
+    last_company = Company.last
+    assert_equal "New Test Company", last_company.name
+    assert_equal "28173", last_company.zip_code
+  end
+
+  test "Create with invalid email" do
     visit new_company_path
 
     within("form#new_company") do
@@ -51,11 +70,7 @@ class CompaniesControllerTest < ApplicationSystemTestCase
       click_button "Create Company"
     end
 
-    assert_text "Saved"
-
-    last_company = Company.last
-    assert_equal "New Test Company", last_company.name
-    assert_equal "28173", last_company.zip_code
+    assert_text "Email not valid"
   end
 
   test 'Delete when accepted' do
