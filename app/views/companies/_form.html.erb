@@ -63,6 +63,15 @@
       <div class="col">
         <div class="form-group">
           <%= f.submit class: "btn btn-success"%>
+          <% if params[:action] == 'edit' %>
+            <%= link_to 'Delete', company_path(@company),
+                                  class: 'btn btn-danger',
+                                  data: {
+                                    confirm: 'Are you sure?',
+                                    method: 'delete'
+                                  }
+            %>
+          <% end %>
         </div>
       </div>
     </div>

@@ -58,4 +58,23 @@ class CompaniesControllerTest < ApplicationSystemTestCase
     assert_equal "28173", last_company.zip_code
   end
 
+  test 'Delete when accepted' do
+    visit company_path(@company)
+
+    accept_confirm do
+      click_link 'Delete'
+    end
+    assert_text 'Company deleted'
+    assert_text 'Create a Company'
+  end
+
+  test 'Delete when rejected' do
+    visit company_path(@company)
+
+    dismiss_confirm do
+      click_link 'Delete'
+    end
+    assert_text @company.name
+  end
+
 end

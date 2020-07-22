@@ -1,5 +1,6 @@
 class CompaniesController < ApplicationController
   before_action :set_company, except: [:index, :create, :new]
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_response
 
   def index
     @companies = Company.all
@@ -30,7 +31,15 @@ class CompaniesController < ApplicationController
     else
       render :edit
     end
-  end  
+  end
+
+  def destroy
+    if @company.destroy
+      redirect_to companies_path, notice: 'Company deleted'
+    else
+      redirect_to request.referrer, alert: company_errors
+    end
+  end
 
   private
 
@@ -49,5 +58,13 @@ class CompaniesController < ApplicationController
   def set_company
     @company = Company.find(params[:id])
   end
-  
+
+  def not_found_response
+    redirect_to companies_path, alert: 'Company not found'
+  end
+
+  def company_errors
+    @company.errors.full_messages.join(',')
+  end
+
 end

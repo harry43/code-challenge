@@ -1,0 +1,10 @@
+<%#= link_to company.name, company_path(company), class: 'list-group-item list-group-item-action' %>
+<li class='row flex align-items-center'>
+  <div class='col-11 col-sm-11 col-md-11 col-lg-11'>
+    <%= link_to company.name, company_path(company), class: 'list-group-item list-group-item-action' %>
+  </div>
+  <div class='col-1 col-sm-1 col-md-1 col-lg-1'>
+    <%= link_to 'Delete', company_path(company), data: { confirm: 'Are you sure?', method: 'delete' } %>
+  </div>
+</li>
+

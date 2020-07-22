@@ -6,6 +6,7 @@
     </div>
     <div class="col text-right">
       <%= link_to "Edit", edit_company_path %>
+      | <%= link_to 'Delete', company_path(@company), data: { confirm: 'Are you sure?', method: 'delete' } %>
     </div>
   </div>
   <div class="bg-success">
